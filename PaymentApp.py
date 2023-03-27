@@ -15,21 +15,21 @@ class PaymentApp:
             raise ValueError(f"User {name} does not exist.")
         return self.users[name]
 
-    def deposit(self, name, amount):
-        self.get_user(name).credit(amount)
+    def deposit(self, name, amount, currency):
+        self.get_user(name).credit(amount, currency)
 
-    def withdraw(self, name, amount):
-        self.get_user(name).debit(amount)
+    def withdraw(self, name, amount, currency):
+        self.get_user(name).debit(amount, currency)
 
-    def check_balance(self, name):
-        return self.get_user(name).balance
+    def check_balance(self, name, currency):
+        return self.get_user(name).wallets[currency]
 
-    def transfer(self, sender_name, recipient_name, amount):
+    def transfer(self, sender_name, recipient_name, amount, currency):
         sender = self.get_user(sender_name)
         recipient = self.get_user(recipient_name)
-        sender.transfer(recipient, amount)
+        sender.transfer(recipient, amount, currency)
 
-    def transfer_out(self, sender_name, amount, recipient_app={}, recipient_name=''):
-        self.get_user(sender_name).debit(amount)
+    def transfer_out(self, sender_name, amount, currency, recipient_app={}, recipient_name=''):
+        self.get_user(sender_name).debit(amount, currency)
         # credit the recipient app using the recipient_id/recipient_name
 
